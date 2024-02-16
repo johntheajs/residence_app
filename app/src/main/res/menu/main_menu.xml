@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_residence"
+        android:icon="@drawable/ic_residence"
+        android:title="@string/menu_residence"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_announcement"
+        android:icon="@drawable/ic_announcement"
+        android:title="@string/menu_announcement"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_call"
+        android:icon="@drawable/ic_call"
+        android:title="@string/menu_call"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_service"
+        android:title="@string/menu_service"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:orderInCategory="101"
+        android:visible="true"
+        android:title="@string/menu_settings"
+        app:showAsAction="never" />
+    <item
+        android:icon="@drawable/ic_about"
+        android:id="@+id/action_about"
+        android:orderInCategory="102"
+        android:visible="false"
+        android:title="@string/menu_about"
+        app:showAsAction="never" />
+</menu>
