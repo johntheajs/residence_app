@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".MainActivity">
+    tools:context=".SecondActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -18,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"/>
+            android:background="?attr/colorPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,16 +29,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/dataFromMain"
+        android:contentDescription="@string/image"
         android:scaleType="fitCenter"
-        android:src="@drawable/image"
-        android:contentDescription="@string/image"/>
+        android:src="@drawable/image" />
 
     <ListView
         android:id="@+id/listView2"
@@ -61,9 +60,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/listView2"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:onClick="onNextButtonClick"
-        android:text="@string/nextButton2"
-        android:layout_centerHorizontal="true"/>
+        android:text="@string/nextButton2" />
+
+    <Button
+        android:id="@+id/buttonBookAppointment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nextButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Book Appointment"
+        android:onClick="onBookAppointmentButtonClick" />
 
 </RelativeLayout>

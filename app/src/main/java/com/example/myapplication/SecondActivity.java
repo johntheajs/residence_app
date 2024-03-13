@@ -42,6 +42,11 @@ public class SecondActivity extends AppCompatActivity {
         });
     }
 
+    public void onBookAppointmentButtonClick(View view) {
+        Intent intent = new Intent(this, AppointmentActivity.class);
+        startActivity(intent);
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
