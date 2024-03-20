@@ -54,12 +54,31 @@
         android:layout_below="@id/buttonTimePicker"
         android:layout_marginTop="8dp" />
 
+    <Button
+        android:id="@+id/buttonLocateMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textTime"
+        android:text="Locate Me"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/textViewAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/buttonLocateMe"
+        android:layout_marginTop="16dp"
+        android:text="" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textTime"
+        android:layout_below="@id/textViewAddress"
         android:layout_marginTop="16dp"
         android:max="100"
         android:progress="0" />

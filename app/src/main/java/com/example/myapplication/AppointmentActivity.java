@@ -1,7 +1,13 @@
 package com.example.myapplication;
 
+
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +18,29 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class AppointmentActivity extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    private FusedLocationProviderClient fusedLocationClient;
+    private TextView textViewAddress;
 
     ProgressBar progressBar;
     EditText editTextCity;
@@ -36,6 +58,11 @@ public class AppointmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // Locate the TextView to display the address
+        textViewAddress = findViewById(R.id.textViewAddress);
+
         progressBar = findViewById(R.id.progressBar);
         editTextCity = findViewById(R.id.editTextCity);
         buttonDatePicker = findViewById(R.id.buttonDatePicker);
@@ -45,6 +72,25 @@ public class AppointmentActivity extends AppCompatActivity {
         textTime = findViewById(R.id.textTime);
 
         progressBar.setProgress(0);
+
+        Button buttonLocateMe = findViewById(R.id.buttonLocateMe);
+        buttonLocateMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(
+                        getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(
+                            AppointmentActivity.this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            REQUEST_CODE_LOCATION_PERMISSION
+                    );
+                } else {
+                    getLocation();
+                }
+            }
+        });
+
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +127,57 @@ public class AppointmentActivity extends AppCompatActivity {
         });
     }
 
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
+            Location location = task.getResult();
+            if (location != null) {
+                try {
+                    Geocoder geocoder = new Geocoder(AppointmentActivity.this, Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocation(
+                            location.getLatitude(),
+                            location.getLongitude(),
+                            1
+                    );
+                    if (!addresses.isEmpty()) {
+                        Address address = addresses.get(0);
+                        String addressLine = address.getAddressLine(0);
+                        textViewAddress.setText(addressLine);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        updateProgressBar();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            } else {
+                Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private boolean isFormFilled() {
         return !editTextCity.getText().toString().trim().isEmpty() &&
                 !textDate.getText().toString().isEmpty() &&
-                !textTime.getText().toString().isEmpty();
+                !textTime.getText().toString().isEmpty() &&
+                !textViewAddress.getText().toString().isEmpty();
     }
 
     private void showDatePickerDialog() {
@@ -136,7 +229,10 @@ public class AppointmentActivity extends AppCompatActivity {
             progress += 25;
         }
         if (!textTime.getText().toString().isEmpty()) {
-            progress += 50;
+            progress += 25;
+        }
+        if (!textViewAddress.getText().toString().isEmpty()) {
+            progress += 25;
         }
         progressBar.setProgress(progress);
     }
