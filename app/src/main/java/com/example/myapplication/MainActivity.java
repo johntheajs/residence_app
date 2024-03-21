@@ -22,9 +22,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.net.Uri;
+
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +56,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String[] items = {"Resident 1", "Resident 2", "Resident 3", "Resident 4", "Resident 5"};
+
+
+
+
+
+        String[] items = {"Resident 1", "Resident 2"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
 
@@ -63,6 +77,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         createNotificationChannel();
+    }
+
+    private void showCallOptionsDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Customer Care")
+                .setItems(R.array.customer_care_options, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position of the selected item
+                        switch (which) {
+                            case 0:
+                                callCustomerCare("Customer Care 1 Phone Number");
+                                break;
+                            case 1:
+                                callCustomerCare("Customer Care 2 Phone Number");
+                                break;
+                            case 2:
+                                callCustomerCare("Customer Care 3 Phone Number");
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void callCustomerCare(String s) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        String phoneNumber = "9585400182";
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        startActivity(intent);
     }
 
     @Override
@@ -96,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         // Create an Intent to handle dismissal of the notification
         Intent dismissIntent = new Intent(this, NotificationDismissReceiver.class);
         dismissIntent.setAction("dismiss_action"); // Custom action to identify dismissal
-        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(this, 0, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(this, 0, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // Build the notification with dismiss action
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -125,16 +175,19 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_residence) {
+        if (id == R.id.action_call) {
+            showCallOptionsDialog();
+            return true;
+        }
+        else if(id == R.id.action_residence) {
             showToast("MyResidence");
         } else if(id == R.id.action_announcement) {
             showToast(" Residence Announcements!!");
-        } else if(id == R.id.action_call) {
-            showToast("Contact Residence");
-        } else if(id == R.id.action_settings) {
+        }  else if(id == R.id.action_settings) {
             showToast("MyResidence Settings");
         } else if (id == R.id.action_about) {
             showToast("About MyResidence");

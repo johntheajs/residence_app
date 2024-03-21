@@ -38,6 +38,7 @@ import java.util.Locale;
 
 public class AppointmentActivity extends AppCompatActivity {
 
+
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private TextView textViewAddress;
@@ -129,25 +130,26 @@ public class AppointmentActivity extends AppCompatActivity {
 
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            // Request location permission if not granted
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_PERMISSION);
             return;
         }
+
+        // Get last known location
         fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
             Location location = task.getResult();
             if (location != null) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+
+                // Display latitude and longitude in toast message
+                String message = "Current Location: Latitude " + latitude + ", Longitude " + longitude;
+                Toast.makeText(AppointmentActivity.this, message, Toast.LENGTH_SHORT).show();
+
                 try {
+                    // Get address from latitude and longitude
                     Geocoder geocoder = new Geocoder(AppointmentActivity.this, Locale.getDefault());
-                    List<Address> addresses = geocoder.getFromLocation(
-                            location.getLatitude(),
-                            location.getLongitude(),
-                            1
-                    );
+                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     if (!addresses.isEmpty()) {
                         Address address = addresses.get(0);
                         String addressLine = address.getAddressLine(0);
@@ -158,8 +160,11 @@ public class AppointmentActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Update progress bar
         updateProgressBar();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
