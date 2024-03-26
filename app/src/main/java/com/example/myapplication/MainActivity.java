@@ -21,6 +21,9 @@ import android.widget.Button;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.net.Uri;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         // Create an Intent to handle dismissal of the notification
         Intent dismissIntent = new Intent(this, NotificationDismissReceiver.class);
         dismissIntent.setAction("dismiss_action"); // Custom action to identify dismissal
-        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(this, 0, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(this, 0, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // Build the notification with dismiss action
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -133,7 +136,8 @@ public class MainActivity extends AppCompatActivity {
         } else if(id == R.id.action_announcement) {
             showToast(" Residence Announcements!!");
         } else if(id == R.id.action_call) {
-            showToast("Contact Residence");
+            showCallOptionsDialog();
+            return true;
         } else if(id == R.id.action_settings) {
             showToast("MyResidence Settings");
         } else if (id == R.id.action_about) {
@@ -142,6 +146,40 @@ public class MainActivity extends AppCompatActivity {
             showToast("Request MyResidence Service");
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showCallOptionsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Customer Care")
+                .setItems(R.array.customer_care_options, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position of the selected item
+                        switch (which) {
+                            case 0:
+                                callCustomerCare("Customer Care 1 Phone Number");
+                                break;
+                            case 1:
+                                callCustomerCare("Customer Care 2 Phone Number");
+                                break;
+                            case 2:
+                                callCustomerCare("Customer Care 3 Phone Number");
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void callCustomerCare(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        startActivity(intent);
     }
 
     private void showToast(String msg) {
