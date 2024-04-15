@@ -55,6 +55,10 @@
         <!-- AppointmentActivity -->
         <activity android:name=".AppointmentActivity" android:label="Appointment Activity"/>
 
+        <activity
+            android:name=".ResidentsActivity"
+            android:exported="true" />
+
         <!-- NotificationDismissReceiver -->
         <receiver android:name=".NotificationDismissReceiver"/>
 

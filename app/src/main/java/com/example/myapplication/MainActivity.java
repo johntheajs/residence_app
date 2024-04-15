@@ -233,7 +233,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.menu_item1) {
-                    Toast.makeText(MainActivity.this, "Residence popup clicked!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "Residence popup clicked!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, ResidentsActivity.class);
+                    startActivity(intent);
                 } else if (item.getItemId() == R.id.menu_item2) {
                     Toast.makeText(MainActivity.this, "Resident popup clicked!", Toast.LENGTH_SHORT).show();
                 }
