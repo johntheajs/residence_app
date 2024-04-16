@@ -1,7 +1,11 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.SettingsActivity.DARK_MODE_KEY;
+import static com.example.myapplication.SettingsActivity.PREFS_NAME;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -25,6 +29,8 @@ public class SecondActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

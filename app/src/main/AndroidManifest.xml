@@ -49,6 +49,7 @@
             android:exported="true"/>
 
 
+
         <!-- SecondActivity -->
         <activity android:name=".SecondActivity" android:label="Second Activity"/>
 
@@ -58,6 +59,12 @@
         <activity
             android:name=".ResidentsActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/AppTheme"
+            android:exported="true" />
+
 
         <!-- NotificationDismissReceiver -->
         <receiver android:name=".NotificationDismissReceiver"/>

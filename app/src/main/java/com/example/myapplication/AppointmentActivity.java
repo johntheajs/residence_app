@@ -1,9 +1,13 @@
 package com.example.myapplication;
 
 
+import static com.example.myapplication.SettingsActivity.DARK_MODE_KEY;
+import static com.example.myapplication.SettingsActivity.PREFS_NAME;
+
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -58,6 +62,8 @@ public class AppointmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
+
+
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 

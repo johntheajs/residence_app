@@ -1,7 +1,11 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.SettingsActivity.DARK_MODE_KEY;
+import static com.example.myapplication.SettingsActivity.PREFS_NAME;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +32,7 @@ public class ResidentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_residents);
+
 
         databaseHelper = new ResidentsDatabaseHelper(this);
 

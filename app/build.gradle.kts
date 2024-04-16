@@ -46,6 +46,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-auth:21.0.0")
     implementation ("com.firebaseui:firebase-ui-auth:8.0.0")
+    implementation ("androidx.appcompat:appcompat:1.3.0")
+
 
 
 }
