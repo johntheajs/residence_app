@@ -33,12 +33,11 @@ public class ResidentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_residents);
 
-
         databaseHelper = new ResidentsDatabaseHelper(this);
 
         recyclerView = findViewById(R.id.recyclerViewResidents);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ResidentsAdapter(getAllResidents());
+        adapter = new ResidentsAdapter(getAllResidents(), this); // Pass the context
         recyclerView.setAdapter(adapter);
 
         FloatingActionButton fabAdd = findViewById(R.id.fab_add);
@@ -50,6 +49,7 @@ public class ResidentsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void showAddResidentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

@@ -1,7 +1,7 @@
 package com.example.myapplication;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-// ResidentsDatabaseHelper.java
 public class ResidentsDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "ResidentsDatabase";
@@ -20,7 +19,7 @@ public class ResidentsDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_AGE = "age";
 
-    public ResidentsDatabaseHelper(ResidentsActivity context) {
+    public ResidentsDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -33,6 +32,21 @@ public class ResidentsDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_AGE + " INTEGER" +
                 ")";
         db.execSQL(CREATE_RESIDENTS_TABLE);
+    }
+
+    public void deleteResident(int residentId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_RESIDENTS, COLUMN_ID + " = ?", new String[]{String.valueOf(residentId)});
+        db.close();
+    }
+
+    public void updateResident(Resident resident) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, resident.getName());
+        values.put(COLUMN_AGE, resident.getAge());
+        db.update(TABLE_RESIDENTS, values, COLUMN_ID + " = ?", new String[]{String.valueOf(resident.getId())});
+        db.close();
     }
 
     @Override
@@ -85,6 +99,4 @@ public class ResidentsDatabaseHelper extends SQLiteOpenHelper {
 
         return residents;
     }
-
 }
-
