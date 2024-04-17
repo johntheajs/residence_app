@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -22,9 +23,9 @@ public class SettingsActivity extends AppCompatActivity {
         // Apply the saved theme immediately before setting the content view
         boolean isDarkModeEnabled = preferences.getBoolean(DARK_MODE_KEY, false);
         if (isDarkModeEnabled) {
-            setTheme(R.style.DarkTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         setContentView(R.layout.activity_settings);
 
@@ -38,13 +39,16 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putBoolean(DARK_MODE_KEY, isChecked);
                 editor.apply();
 
-                // Send a broadcast to notify MainActivity to update the theme
-                Intent intent = new Intent("android.intent.action.MY_PREFERENCE_CHANGED");
-                sendBroadcast(intent);
-
-                // Restart the activity to apply the theme changes
-                recreate();
+                // Restart the app to apply the theme changes
+                restartApp();
             }
         });
+    }
+
+    private void restartApp() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

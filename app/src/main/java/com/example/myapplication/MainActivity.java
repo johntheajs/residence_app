@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.widget.Button;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.content.BroadcastReceiver;
 
 
 
@@ -43,7 +44,6 @@ import android.net.Uri;
 public class MainActivity extends AppCompatActivity {
 
     private static final String CHANNEL_ID = "my_channel";
-    private ThemeChangeReceiver themeChangeReceiver;
 
 
     @Override
@@ -51,11 +51,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Register the BroadcastReceiver
-        themeChangeReceiver = new ThemeChangeReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.intent.action.MY_PREFERENCE_CHANGED");
-        registerReceiver(themeChangeReceiver, intentFilter);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,20 +88,7 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Unregister the BroadcastReceiver
-        unregisterReceiver(themeChangeReceiver);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Trigger theme change when the activity resumes
-        Intent intent = new Intent("android.intent.action.MY_PREFERENCE_CHANGED");
-        sendBroadcast(intent);
-    }
 
     private void showCallOptionsDialog() {
 

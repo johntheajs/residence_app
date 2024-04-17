@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".SettingsActivity">
+    tools:context=".SettingsActivity"
+    android:background="?android:attr/windowBackground"
+    >
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchDarkMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dark Mode"
+        android:text="Light Mode"
         android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
