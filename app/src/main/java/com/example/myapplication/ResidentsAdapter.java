@@ -50,17 +50,20 @@ public class ResidentsAdapter extends RecyclerView.Adapter<ResidentsAdapter.Resi
 
         private TextView textViewName;
         private TextView textViewAge;
+        private TextView textViewPhoneNumber; // Add TextView for phone number
 
         public ResidentViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewAge = itemView.findViewById(R.id.textViewAge);
+            textViewPhoneNumber = itemView.findViewById(R.id.textViewPhoneNumber); // Initialize TextView
             itemView.setOnLongClickListener(this);
         }
 
         public void bind(Resident resident) {
             textViewName.setText(resident.getName());
             textViewAge.setText(String.valueOf(resident.getAge()));
+            textViewPhoneNumber.setText(resident.getPhoneNumber()); // Set phone number
         }
 
         @Override
@@ -100,16 +103,19 @@ public class ResidentsAdapter extends RecyclerView.Adapter<ResidentsAdapter.Resi
 
             final EditText editTextName = dialogView.findViewById(R.id.editTextName);
             final EditText editTextAge = dialogView.findViewById(R.id.editTextAge);
+            final EditText editTextPhoneNumber = dialogView.findViewById(R.id.editTextPhoneNumber); // Add EditText for phone number
 
             Resident resident = residents.get(position);
             editTextName.setText(resident.getName());
             editTextAge.setText(String.valueOf(resident.getAge()));
+            editTextPhoneNumber.setText(resident.getPhoneNumber()); // Set phone number
 
             builder.setPositiveButton("Update", (dialog, which) -> {
                 String name = editTextName.getText().toString().trim();
                 int age = Integer.parseInt(editTextAge.getText().toString().trim());
+                String phoneNumber = editTextPhoneNumber.getText().toString().trim(); // Get updated phone number
 
-                Resident updatedResident = new Resident(resident.getId(), name, age);
+                Resident updatedResident = new Resident(resident.getId(), name, age, phoneNumber);
                 updateResident(position, updatedResident);
             });
 

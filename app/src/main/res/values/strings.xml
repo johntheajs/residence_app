@@ -12,6 +12,7 @@
     <string name="nextButton">Open MyResidence Services</string>
     <string name="nextButton2">Locate MyResidence</string>
     <string name="popupButton">Join MyResidence</string>
+    <string name="announcement_icon_description">Announcement</string>
     <string-array name="customer_care_options">
         <item>Customer Care 1</item>
         <item>Customer Care 2</item>

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ResidentsActivity"
-    android:background="?android:attr/windowBackground"
-    >
+    android:background="?android:attr/windowBackground">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewResidents"
@@ -28,5 +27,17 @@
         android:src="@drawable/ic_add"
         app:layout_anchor="@id/recyclerViewResidents"
         app:layout_anchorGravity="bottom|end" />
+
+    <ImageView
+        android:id="@+id/announcement_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_announcement"
+        android:contentDescription="@string/announcement_icon_description"
+        android:onClick="onAnnouncementIconClicked" />
 
 </RelativeLayout>

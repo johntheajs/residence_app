@@ -196,7 +196,10 @@ public class MainActivity extends AppCompatActivity {
         } else if(id == R.id.action_residence) {
             showToast("MyResidence");
         } else if(id == R.id.action_announcement) {
-            showToast("Residence Announcements!!");
+            Intent intent = new Intent(MainActivity.this, ResidentsActivity.class);
+            intent.putExtra("send_group_message", true); // Pass the flag
+            startActivity(intent);
+            return true;
         } else if(id == R.id.action_settings) {
             // Start the settings activity
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
